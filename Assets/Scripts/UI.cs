@@ -8,7 +8,7 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject _quotePanel;
     [SerializeField] GameObject _contactsPanel;
     [SerializeField] GameObject _inContactsPanel;
-    [SerializeField] GameObject _storiesPanel;
+    [SerializeField] GameObject[] _storiesPanel;
     [SerializeField] SnapToPicture _scrollInContacts;
     public void OpenMain()
     {
@@ -16,7 +16,8 @@ public class UI : MonoBehaviour
         _quotePanel.SetActive(false);
         _contactsPanel.SetActive(false);
         _inContactsPanel.SetActive(false);
-        _storiesPanel.SetActive(false);
+        foreach(var i in _storiesPanel)
+            i.SetActive(false);
     }
     public void OpenQuote()
     {
@@ -26,6 +27,7 @@ public class UI : MonoBehaviour
     public void OpenContacts()
     {
         _quotePanel.SetActive(false);
+        _inContactsPanel.SetActive(false);
         _contactsPanel.SetActive(true);
     }
     public void OpenInContacts(int idItem)
@@ -34,9 +36,9 @@ public class UI : MonoBehaviour
         _contactsPanel.SetActive(false);
         _inContactsPanel.SetActive(true);
     }
-    public void OpenStories()
+    public void OpenStories(int i)
     {
         _mainPanel.SetActive(false);
-        _storiesPanel.SetActive(true);
+        _storiesPanel[i].SetActive(true);
     }
 }

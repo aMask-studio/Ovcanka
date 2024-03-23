@@ -8,7 +8,57 @@ public class Stories : MonoBehaviour
     [SerializeField] Sprite[] _storiesSprites;
     [SerializeField] Image[] _pagiantion;
     [SerializeField] Image[] _storiesImages;
-    int currentStory = 0;
+    [SerializeField] RectTransform _contentPanel;
+    [SerializeField] float _snapForce;
+    public int currentStory;
+    float _previousMousePos;
+    float _currentMousePos;
+    float _snapSpeed;
+    public void OnEnable()
+    {
+        currentStory = 0;
+        _storiesImages[1].sprite = _storiesSprites[currentStory];
+        _storiesImages[0].gameObject.SetActive(false);
+        _storiesImages[2].gameObject.SetActive(true);
+        _storiesImages[2].sprite = _storiesSprites[currentStory + 1];
+        ChangePagination(currentStory);
+    }
+    private void Update()
+    {
+        /*if (Input.GetMouseButtonUp(0))
+        {
+            _currentMousePos = Input.mousePosition.x;
+            if (_currentMousePos > _previousMousePos && currentStory > 0)
+            {
+                PreviousStory();
+            }
+            else if (_currentMousePos < _previousMousePos && currentStory+1 < _storiesSprites.Length)
+            {
+                NextStory();
+            }
+        }*/
+        _snapSpeed += _snapForce * Time.deltaTime;
+        _contentPanel.localScale = new Vector3(
+            Mathf.MoveTowards(_contentPanel.localScale.x, 1, _snapSpeed), 
+            Mathf.MoveTowards(_contentPanel.localScale.y, 1, _snapSpeed), 
+            _contentPanel.localScale.z);
+    }
+    public void SetPreviousPos()
+    {
+        _previousMousePos = Input.mousePosition.x;
+    }
+    public void SetCurrentPos()
+    {
+        _currentMousePos = Input.mousePosition.x;
+        if (_currentMousePos > _previousMousePos + 10 && currentStory > 0)
+        {
+            PreviousStory();
+        }
+        else if (_currentMousePos < _previousMousePos - 10 && currentStory + 1 < _storiesSprites.Length)
+        {
+            NextStory();
+        }
+    }
     public void NextStory()
     {
         currentStory++;
