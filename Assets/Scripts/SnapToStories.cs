@@ -64,15 +64,15 @@ public class SnapToStories : MonoBehaviour
         }
         else
         {
-            ChangePagination(currentItem);
+            ChangePagination(currentItem); //смена нумерации историй
             _scrollRect.velocity = Vector2.zero;
             _snapSpeed += _snapForce * Time.deltaTime;
             _contentPanel.localPosition = new Vector3(
                 Mathf.MoveTowards(_contentPanel.localPosition.x, 0 - (currentItem * (_sampleListPictures.rect.width + _hlg.spacing)), _snapSpeed),
                 _contentPanel.localPosition.y,
-                _contentPanel.localPosition.z);
+                _contentPanel.localPosition.z); //перемещение по ленте историй
 
-            thisRect = _contentPanel.GetChild(currentItem + 1).GetChild(0).GetComponent<RectTransform>();
+            thisRect = _contentPanel.GetChild(currentItem + 1).GetChild(0).GetComponent<RectTransform>(); //определение позиции историй (те что слева и справа меньше по размерам)
             if (currentItem > 0)
                 LeftRect = _contentPanel.GetChild(currentItem).GetChild(0).GetComponent<RectTransform>();
             else
@@ -82,12 +82,12 @@ public class SnapToStories : MonoBehaviour
             else
                 RightRect = null;
 
-            thisRect.GetComponent<Image>().color = Color.white;
+            thisRect.GetComponent<Image>().color = Color.white; //параметры для конкретной истории (изменение цвета, позиции и размера)
             thisRect.localPosition = new Vector2(Mathf.MoveTowards(thisRect.localPosition.x, 0, _snapSpeed), 0);
             thisRect.sizeDelta = new Vector2(Mathf.MoveTowards(thisRect.rect.width, 465, _snapSpeed), Mathf.MoveTowards(thisRect.rect.height, 803, _snapSpeed));
             thisRect.GetComponent<Button>().interactable = false;
 
-            if (LeftRect)
+            if (LeftRect) //параметры для соседних главной историй
                 SetSideStoryParams(LeftRect, 140f);
             if (RightRect)
                 SetSideStoryParams(RightRect, -140f);
@@ -106,7 +106,7 @@ public class SnapToStories : MonoBehaviour
         Rect.localPosition = new Vector2(Mathf.MoveTowards(Rect.localPosition.x, pos, _snapSpeed), 0);
         Rect.sizeDelta = new Vector2(Mathf.MoveTowards(Rect.rect.width, 302, _snapSpeed), Mathf.MoveTowards(Rect.rect.height, 522, _snapSpeed));
     }
-    public void SetPreviousPos()
+    public void SetPreviousPos() //для управления свайпом (сами методы вызываются из Event Trigger на объекте панели историй)
     {
         _previousMousePos = Input.mousePosition.x;
     }

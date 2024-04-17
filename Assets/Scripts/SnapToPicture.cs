@@ -17,6 +17,9 @@ public class SnapToPicture : MonoBehaviour
     [SerializeField] GameObject _btnLeft;
     [SerializeField] GameObject _btnRight;
 
+    [SerializeField] Sprite[] _btnLeftSprites;
+    [SerializeField] Sprite[] _btnRightSprites;
+
     [SerializeField] float _snapForce;
     public int currentItem;
 
@@ -31,6 +34,7 @@ public class SnapToPicture : MonoBehaviour
             _contentPanel.localPosition.y,
             _contentPanel.localPosition.z);
         ChangePagination(currentItem);
+        ChangeSprite();
         currentItem = 0;
     }
     private void OnDisable()
@@ -43,29 +47,9 @@ public class SnapToPicture : MonoBehaviour
     }
     void Update()
     {
-        //_previousItem = currentItem;
         if(!_momentalSwipe)
             currentItem = Mathf.RoundToInt((0 - _contentPanel.localPosition.x / (_sampleListPictures.rect.width + _hlg.spacing)));
-        /*if (currentItem != _previousItem)
-            ChangePagination(currentItem);*/
-
-        /*if (Input.GetMouseButtonDown(0))
-            _previousMousePos = Input.mousePosition.x;
-        if (Input.GetMouseButtonUp(0))
-        {
-            _currentMousePos = Input.mousePosition.x;
-            if(_currentMousePos > _previousMousePos && currentItem > 0)
-            {
-                currentItem--;
-            }
-            else if(_currentMousePos < _previousMousePos && currentItem < 5)
-            {
-                currentItem++;
-            }
-            _isTouched = true;
-            _momentalSwipe = true;
-        }*/
-        if (_momentalSwipe) //(_scrollRect.velocity.magnitude < 600 && !_isSnapped && _isTouched == true) || 
+        if (_momentalSwipe)
         {
             _isSnapped = true;
             ChangePagination(currentItem);
@@ -86,11 +70,6 @@ public class SnapToPicture : MonoBehaviour
                 _snapSpeed = 0;
             }
         }
-        /*if (_scrollRect.velocity.magnitude > 600)
-        {
-            _isSnapped = false;
-            _snapSpeed = 0;
-        }*/
     }
     public void SetPreviousPos()
     {
@@ -110,6 +89,7 @@ public class SnapToPicture : MonoBehaviour
             currentItem++;
         }
         //_isSnapped = true;
+        Invoke("ChangeSprite", 0.6f);
         _momentalSwipe = true;
     }
     public void ChangePicture(bool isLeft)
@@ -126,6 +106,7 @@ public class SnapToPicture : MonoBehaviour
         }
         //_isSnapped = true;
         _momentalSwipe = true;
+        Invoke("ChangeSprite", 0.6f);
         ChangePagination(currentItem);
     }
     private void ChangePagination(int currentItem)
@@ -154,5 +135,10 @@ public class SnapToPicture : MonoBehaviour
             _btnLeft.SetActive(true);
             _btnRight.SetActive(true);
         }
+    }
+    private void ChangeSprite()
+    {
+        _btnLeft.GetComponent<Image>().sprite = _btnLeftSprites[currentItem];
+        _btnRight.GetComponent<Image>().sprite = _btnRightSprites[currentItem];
     }
 }
