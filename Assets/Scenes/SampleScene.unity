@@ -1158,7 +1158,7 @@ GameObject:
   - component: {fileID: 162535793}
   - component: {fileID: 162535792}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: txtLoading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,6 +1812,7 @@ MonoBehaviour:
   - {fileID: 610567835}
   - {fileID: 1426597743}
   _scrollInContacts: {fileID: 983780726}
+  _txtLoading: {fileID: 162535790}
 --- !u!4 &222430207
 Transform:
   m_ObjectHideFlags: 0
@@ -1820,7 +1821,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222430205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1123.5076, y: 601.1059, z: -5920.971}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4158,7 +4159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477969855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 900.80774, y: 457.08868, z: -245.32526}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -18204,6 +18205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb6f08932be8b940a838c0e46a49db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AppName: LiteraryTriangle
+  LinkToJson: http://koyltoh4.beget.tech/Ovcanka/version.json
   txtLoading: {fileID: 162535792}
 --- !u!4 &1812958041
 Transform:
@@ -18213,7 +18216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812958039}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3588.2195, y: 643.1386, z: -1964.9978}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

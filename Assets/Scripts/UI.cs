@@ -11,6 +11,8 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject _inContactsPanel;
     [SerializeField] GameObject[] _storiesPanel;
     [SerializeField] SnapToPicture _scrollInContacts;
+
+    [SerializeField] GameObject _txtLoading;
     public void OpenMain()
     {
         _mainPanel.SetActive(true);
@@ -24,6 +26,7 @@ public class UI : MonoBehaviour
     {
         _mainPanel.SetActive(false);
         _quotePanel.SetActive(true);
+        _txtLoading.SetActive(false);
     }
     public void OpenContacts()
     {
