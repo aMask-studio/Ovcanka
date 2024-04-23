@@ -14,6 +14,7 @@ using UnityEngine.Networking;
 struct GetdataOutput //структура для чтения json файла конфигурации
 {
     public string version; //номер версии
+    public string link; //ссылка до apk файла
 }
 public class CheckVersion : MonoBehaviour
 {
@@ -54,10 +55,14 @@ public class CheckVersion : MonoBehaviour
                 //Скачивание файла с FTP сервера
                 string path = Application.persistentDataPath;
                 path = Path.Combine(path, $"{AppName}.apk");
-                downloadWithFTP($"ftp://{FtpAddress}/apk/{AppName}.apk", path, FtpLogin, FtpPassword);
+                if(string.IsNullOrEmpty(all_data.link))
+                    downloadWithFTP($"ftp://{FtpAddress}/apk/{AppName}.apk", path, FtpLogin, FtpPassword);
+                else
+                    downloadWithFTP(all_data.link, path, FtpLogin, FtpPassword);
 
                 //Если понадобится подключение без логина и пароля
                 //downloadWithFTP($"ftp://{FtpAddress}/apk/{AppName}.apk", path);
+                //downloadWithFTP(all_data.link, path);
             }
             UnityEngine.Debug.Log(all_data.version);
         }
