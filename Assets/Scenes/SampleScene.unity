@@ -18207,6 +18207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppName: LiteraryTriangle
   LinkToJson: http://koyltoh4.beget.tech/Ovcanka/version.json
+  FtpAddress: 95.188.79.124:2165
+  FtpLogin: fabrica
+  FtpPassword: fabrica@2024
   txtLoading: {fileID: 162535792}
 --- !u!4 &1812958041
 Transform:

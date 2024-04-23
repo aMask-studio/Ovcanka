@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -10,13 +14,15 @@ using UnityEngine.Networking;
 struct GetdataOutput //структура для чтения json файла конфигурации
 {
     public string version; //номер версии
-    public string link; //ссылка на apk файл
 }
 public class CheckVersion : MonoBehaviour
 {
     public string AppName; //Название APK файла (без расширения .apk), например LiteraryTriangle
     public string LinkToJson; //Ссылка до файла конфигурации json (вместе с расширением .json),
                               //например http://website/folder/version.json
+    public string FtpAddress; //192.168.0.159
+    public string FtpLogin; //fabrica
+    public string FtpPassword; //fabrica@2024
 
     public TMP_Text txtLoading; //текст со статусом загрузки
     private void Start()
@@ -29,7 +35,7 @@ public class CheckVersion : MonoBehaviour
     /// <returns></returns>
     private IEnumerator GetRequest()
     {
-        UnityWebRequest uwr = UnityWebRequest.Get("http://koyltoh4.beget.tech/Ovcanka/version.json");
+        UnityWebRequest uwr = UnityWebRequest.Get(LinkToJson);
         yield return uwr.SendWebRequest();
         if (uwr.isNetworkError)
         {
@@ -40,52 +46,92 @@ public class CheckVersion : MonoBehaviour
             GetdataOutput all_data = (GetdataOutput)JsonUtility.FromJson(uwr.downloadHandler.text, typeof(GetdataOutput));
             if (all_data.version != Application.version)
             {
-                if (all_data.link != null)
-                {
-                    txtLoading.gameObject.SetActive(true);
-                    txtLoading.text = $"Скачивается обновление (v{all_data.version})";
-                    StartCoroutine(GetFile(all_data.link));
-                }
+                txtLoading.gameObject.SetActive(true);
+                txtLoading.text = $"Скачивается обновление (v{all_data.version})";
+
+                yield return new WaitForSeconds(1);
+
+                //Скачивание файла с FTP сервера
+                string path = Application.persistentDataPath;
+                path = Path.Combine(path, $"{AppName}.apk");
+                downloadWithFTP($"ftp://{FtpAddress}/apk/{AppName}.apk", path, FtpLogin, FtpPassword);
+
+                //Если понадобится подключение без логина и пароля
+                //downloadWithFTP($"ftp://{FtpAddress}/apk/{AppName}.apk", path);
             }
             UnityEngine.Debug.Log(all_data.version);
-            UnityEngine.Debug.Log(all_data.link);
         }
     }
-    /// <summary>
-    /// Установка новой версии с сервера
-    /// </summary>
-    /// <param name="link"></param>
-    /// <returns></returns>
-    IEnumerator GetFile(string link)
+    private byte[] downloadWithFTP(string ftpUrl, string savePath = "", string userName = "", string password = "")
     {
-        var wwwRequest = new UnityWebRequest(link);
-        wwwRequest.method = UnityWebRequest.kHttpVerbGET;
+        FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri(ftpUrl));
+        //request.Proxy = null;
 
-        var dh = new DownloadHandlerFile(Application.persistentDataPath + $"/{AppName}.apk");
-        dh.removeFileOnAbort = true;
-        wwwRequest.downloadHandler = dh;
-        if (wwwRequest.isDone != true)
+        request.UsePassive = true;
+        request.UseBinary = true;
+        request.KeepAlive = true;
+
+        if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
         {
-            UnityEngine.Debug.Log(wwwRequest.downloadProgress);
-            UnityEngine.Debug.Log(wwwRequest.isDone);
+            request.Credentials = new NetworkCredential(userName, password);
         }
-        yield return wwwRequest.SendWebRequest();
-        if (wwwRequest.isNetworkError || wwwRequest.isHttpError)
+
+        request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+        if (!string.IsNullOrEmpty(savePath))
         {
-            UnityEngine.Debug.Log(wwwRequest.error);
-            txtLoading.text = $"APK файла по ссылке {link} не найден.";
+            downloadAndSave(request.GetResponse(), savePath);
+            return null;
         }
         else
         {
-            txtLoading.text = "Скачано. APK файл находится в папке Download";
-            InstallApp(Application.persistentDataPath + $"/{AppName}.apk");
+            return downloadAsbyteArray(request.GetResponse());
+        }
+    }
 
-            //Резервное копирование APK в папку Download
-            File.Copy(Application.persistentDataPath + $"/{AppName}.apk", "/storage/emulated/0/Download" + $"/{AppName}.apk", true);
-            UnityEngine.Debug.Log("Downloaded");
+    byte[] downloadAsbyteArray(WebResponse request)
+    {
+        using (Stream input = request.GetResponseStream())
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while (input.CanRead && (read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+    }
+
+    void downloadAndSave(WebResponse request, string savePath)
+    {
+        Stream reader = request.GetResponseStream();
+
+        FileStream fileStream = new FileStream(savePath, FileMode.Create);
+
+
+        int bytesRead = 0;
+        byte[] buffer = new byte[2048];
+
+        while (true)
+        {
+            bytesRead = reader.Read(buffer, 0, buffer.Length);
+
+            if (bytesRead == 0)
+                break;
+
+            fileStream.Write(buffer, 0, bytesRead);
         }
 
-        yield return wwwRequest;
+        //Резервное копирование APK в папку Download
+        File.Copy(Application.persistentDataPath + $"/{AppName}.apk", "/storage/emulated/0/Download" + $"/{AppName}.apk", true);
+        //Установка APK
+        InstallApp(Application.persistentDataPath + $"/{AppName}.apk");
+
+        fileStream.Close();
     }
     /// <summary>
     /// Установка приложения из APK файла на устройство
