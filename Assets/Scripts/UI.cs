@@ -15,7 +15,7 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject _txtLoading;
     public void OpenMain()
     {
-        _mainPanel.SetActive(true);
+        //_mainPanel.SetActive(true);
         _quotePanel.SetActive(false);
         _contactsPanel.SetActive(false);
         _inContactsPanel.SetActive(false);
@@ -24,7 +24,7 @@ public class UI : MonoBehaviour
     }
     public void OpenQuote()
     {
-        _mainPanel.SetActive(false);
+        //_mainPanel.SetActive(false);
         _quotePanel.SetActive(true);
         _txtLoading.SetActive(false);
     }
@@ -42,7 +42,7 @@ public class UI : MonoBehaviour
     }
     public void OpenStories(int i)
     {
-        _mainPanel.SetActive(false);
+        //_mainPanel.SetActive(false);
         _storiesPanel[i].SetActive(true);
     }
 }

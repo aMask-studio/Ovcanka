@@ -37,14 +37,14 @@ public class SnapToStories : MonoBehaviour
         thisRect = _contentPanel.GetChild(currentItem + 1).GetChild(0).GetComponent<RectTransform>();
         thisRect.GetComponent<Image>().color = Color.white;
         thisRect.localPosition = new Vector2(0, 0);
-        thisRect.sizeDelta = new Vector2(465, 803);
+        thisRect.sizeDelta = new Vector2(542, 871);
         thisRect.GetComponent<Button>().interactable = false;
 
         RightRect = _contentPanel.GetChild(currentItem + 2).GetChild(0).GetComponent<RectTransform>();
         RightRect.GetComponent<Button>().interactable = true;
         RightRect.GetComponent<Image>().color = _sideStoryColor;
-        RightRect.localPosition = new Vector2(-140f, 0);
-        RightRect.sizeDelta = new Vector2(302, 522);
+        RightRect.localPosition = new Vector2(-78f, 0);
+        RightRect.sizeDelta = new Vector2(374, 589);
 
         thisRect = null;
         LeftRect = null;
@@ -84,13 +84,13 @@ public class SnapToStories : MonoBehaviour
 
             thisRect.GetComponent<Image>().color = Color.white; //параметры для конкретной истории (изменение цвета, позиции и размера)
             thisRect.localPosition = new Vector2(Mathf.MoveTowards(thisRect.localPosition.x, 0, _snapSpeed), 0);
-            thisRect.sizeDelta = new Vector2(Mathf.MoveTowards(thisRect.rect.width, 465, _snapSpeed), Mathf.MoveTowards(thisRect.rect.height, 803, _snapSpeed));
+            thisRect.sizeDelta = new Vector2(Mathf.MoveTowards(thisRect.rect.width, 542, _snapSpeed), Mathf.MoveTowards(thisRect.rect.height, 871, _snapSpeed));
             thisRect.GetComponent<Button>().interactable = false;
 
             if (LeftRect) //параметры для соседних главной историй
-                SetSideStoryParams(LeftRect, 140f);
+                SetSideStoryParams(LeftRect, 78f);
             if (RightRect)
-                SetSideStoryParams(RightRect, -140f);
+                SetSideStoryParams(RightRect, -78f);
 
             if (_contentPanel.localPosition.x == 0 - (currentItem * (_sampleListPictures.rect.width + _hlg.spacing)))
             {
@@ -104,7 +104,7 @@ public class SnapToStories : MonoBehaviour
         Rect.GetComponent<Button>().interactable = true;
         Rect.GetComponent<Image>().color = _sideStoryColor;
         Rect.localPosition = new Vector2(Mathf.MoveTowards(Rect.localPosition.x, pos, _snapSpeed), 0);
-        Rect.sizeDelta = new Vector2(Mathf.MoveTowards(Rect.rect.width, 302, _snapSpeed), Mathf.MoveTowards(Rect.rect.height, 522, _snapSpeed));
+        Rect.sizeDelta = new Vector2(Mathf.MoveTowards(Rect.rect.width, 374, _snapSpeed), Mathf.MoveTowards(Rect.rect.height, 589, _snapSpeed));
     }
     public void SetPreviousPos() //для управления свайпом (сами методы вызываются из Event Trigger на объекте панели историй)
     {
