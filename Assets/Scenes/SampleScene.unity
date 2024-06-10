@@ -1946,7 +1946,7 @@ RectTransform:
   - {fileID: 610567836}
   - {fileID: 1426597744}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5490,7 +5490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &647487523
 GameObject:
@@ -6830,6 +6830,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742673944}
   m_CullTransparentMesh: 1
+--- !u!1 &776140923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776140925}
+  - component: {fileID: 776140924}
+  m_Layer: 0
+  m_Name: Zabbix
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &776140924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776140923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d4eec0bd96af94eba6941db8faf973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IP_Sender: 192.168.0.1
+  IP_Recipient: 192.168.0.240
+  Key: test_key
+  _time: 0
+  _maxTime: 60
+--- !u!4 &776140925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776140923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 994.45013, y: 496.79816, z: -204.53708}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &779689882
 GameObject:
   m_ObjectHideFlags: 0
@@ -18635,10 +18683,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AppName: LiteraryTriangle
-  LinkToJson: http://koyltoh4.beget.tech/Ovcanka/version.json
+  LinkToJson: 
   FtpAddress: 95.188.79.124:2165
   FtpLogin: fabrica
   FtpPassword: fabrica@2024
+  NameApkFile: 
+  DownloadPath: 
+  AppVersion: 0
   txtLoading: {fileID: 162535792}
 --- !u!4 &1812958041
 Transform:
